@@ -1,4 +1,23 @@
 services:
+  web:
+    build: .
+    container_name: bn_flask
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - FLASK_APP=app
+      - FLASK_DEBUG=1
+      - DEBUG=True
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/bn_db
+      - SECRET_KEY=dev_2dJ9kP3mX7rT1yU5zA0bC6eF2hL9
+      - JWT_SECRET_KEY=dev_xK86tY3uI9oP7mN4vBcZ5aJ0eF8hL
+    volumes:
+      - .:/app
+    restart: always
+    tty: true
+    
   db:
     image: postgres:14-alpine
     container_name: pgdb
