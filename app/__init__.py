@@ -1,7 +1,7 @@
 from flask import Flask
 from app.extensions import db, migrate, jwt
 from app.config import Config
-from app.api import healthz_bp, auth_bp, transaction_bp
+from app.api import healthz_bp, auth_bp, transaction_bp, staff_bp
 
 
 def create_app(config_class=Config):
@@ -15,6 +15,7 @@ def create_app(config_class=Config):
     app.register_blueprint(healthz_bp, url_prefix='')
     app.register_blueprint(auth_bp, url_prefix='')
     app.register_blueprint(transaction_bp, url_prefix='')
+    app.register_blueprint(staff_bp, url_prefix='/staff')
     
     @app.shell_context_processor
     def make_shell_context():

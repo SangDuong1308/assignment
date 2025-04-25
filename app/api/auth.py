@@ -75,7 +75,11 @@ def login():
     if not user or not user.check_password(data['password']):
         return jsonify({'error': 'Invalid username or password'}), 401
     
-    access_token = create_access_token(identity=str(user.id))
+    # access_token = create_access_token(identity=str(user.id))
+    access_token = create_access_token(
+        identity=str(user.id),
+        additional_claims={'is_staff': user.is_staff}
+    )
     
     return jsonify({
         'message': 'Login successful',
@@ -94,7 +98,14 @@ def logout():
 @auth_bp.route('/protected', methods=["GET"])
 @jwt_required()
 def protected():
-    return jsonify(hello="world")
+    user_id = get_jwt_identity()
+    claims = get_jwt()
+    is_staff = claims.get('is_staff', False)
+
+    return jsonify({
+        'user_id': user_id,
+        'is_staff': is_staff
+    })
 
 @auth_bp.route('/reset-password', methods=['POST'])
 @jwt_required()

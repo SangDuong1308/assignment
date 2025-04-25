@@ -12,6 +12,7 @@ class User(db.Model):
     balance = db.Column(db.Float, default=0.0, nullable=False)
     full_name = db.Column(db.String(128))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_staff = db.Column(db.Boolean, default=False)
     
     transactions = db.relationship('Transaction', backref='user_account', lazy='dynamic')
     
