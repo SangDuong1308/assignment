@@ -13,6 +13,8 @@ class User(db.Model):
     full_name = db.Column(db.String(128))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
+    transactions = db.relationship('Transaction', backref='user_account', lazy='dynamic')
+    
     def __repr__(self):
         return f'<User {self.username}>'
     
